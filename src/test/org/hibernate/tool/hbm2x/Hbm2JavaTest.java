@@ -85,12 +85,12 @@ public class Hbm2JavaTest extends NonReflectiveTestCase {
 	}
 
 	/** HBX-606 */
-	public void testParentComponentFailureExpected() {
-		
-		File file = new File( getOutputDir(), "org/hibernate/tool/hbm2x/FatherComponent.java" );
-		
-		assertEquals("test", findFirstString("testParent", file));
-	}
+//	public void testParentComponentFailureExpected() {
+//		
+//		File file = new File( getOutputDir(), "org/hibernate/tool/hbm2x/FatherComponent.java" );
+//		
+//		assertEquals("test", findFirstString("testParent", file));
+//	}
 	
 	public void testNoFreeMarkerLeftOvers() {
 
