@@ -99,13 +99,14 @@ public class JDBCMetaDataConfiguration extends Configuration {
         if(!ignoreconfigxmlmapppings ) {
         	// commenting this out since Configuration.parseMappingElement is private in Hibernate 3.6.X
         	// and this never seems to be called, since ignoreconfigxmlmapppings is set to true above 
+			//FIXME the method is private
             // super.parseMappingElement(subelement, name);
         } 
         else {
             log.info("Ignoring " + name + " mapping");
         }
     }
-
+	    
 	public void setReverseEngineeringStrategy(ReverseEngineeringStrategy reverseEngineeringStrategy) {
 		this.revEngStrategy = reverseEngineeringStrategy;		
 	}
