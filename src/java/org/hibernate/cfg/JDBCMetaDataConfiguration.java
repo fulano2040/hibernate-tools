@@ -6,8 +6,6 @@ package org.hibernate.cfg;
 
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dom4j.Element;
 import org.hibernate.MappingException;
 import org.hibernate.cfg.reveng.DefaultReverseEngineeringStrategy;
@@ -18,6 +16,8 @@ import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
 import org.hibernate.mapping.Table;
 import org.hibernate.type.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author max
@@ -25,7 +25,7 @@ import org.hibernate.type.Type;
  */
 public class JDBCMetaDataConfiguration extends Configuration {
 
-    private static final Log log = LogFactory.getLog(JDBCMetaDataConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(JDBCMetaDataConfiguration.class);
 	private ReverseEngineeringStrategy revEngStrategy = new DefaultReverseEngineeringStrategy();
 	private Mappings mappings;
     

@@ -10,14 +10,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.JDBCMetaDataConfiguration;
 import org.hibernate.cfg.Settings;
 import org.hibernate.cfg.reveng.TableIdentifier;
 import org.hibernate.mapping.ForeignKey;
 import org.hibernate.mapping.Table;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author max
@@ -25,7 +25,7 @@ import org.hibernate.mapping.Table;
  */
 public abstract class JDBCMetaDataBinderTestCase extends BaseTestCase {
 
-	private Log log = LogFactory.getLog( this.getClass() );
+	private Logger log = LoggerFactory.getLogger( this.getClass() );
 	
 	public JDBCMetaDataBinderTestCase() {
 		super( null );

@@ -16,8 +16,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.DuplicateMappingException;
 import org.hibernate.FetchMode;
 import org.hibernate.MappingException;
@@ -52,6 +50,8 @@ import org.hibernate.type.ForeignKeyDirection;
 import org.hibernate.type.Type;
 import org.hibernate.util.JoinedIterator;
 import org.hibernate.util.StringHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -62,7 +62,7 @@ public class JDBCBinder {
 
 	private Settings settings;
 	private ConnectionProvider connectionProvider;
-	private static final Log log = LogFactory.getLog(JDBCBinder.class);
+	private static final Logger log = LoggerFactory.getLogger(JDBCBinder.class);
 
 	private final Mappings mappings;
 

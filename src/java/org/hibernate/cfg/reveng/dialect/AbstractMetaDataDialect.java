@@ -10,12 +10,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.cfg.JDBCBinderException;
 import org.hibernate.cfg.reveng.ReverseEngineeringRuntimeInfo;
 import org.hibernate.exception.SQLExceptionConverter;
 import org.hibernate.util.StringHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * abstract base class for the metadatadialects to hold the
@@ -26,7 +26,7 @@ import org.hibernate.util.StringHelper;
  */
 abstract public class AbstractMetaDataDialect implements MetaDataDialect {
 
-	protected final Log log = LogFactory.getLog(this.getClass());
+	protected final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	private Connection connection;
 	private DatabaseMetaData metaData;
