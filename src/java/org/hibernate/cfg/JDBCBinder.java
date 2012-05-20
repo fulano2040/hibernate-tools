@@ -45,6 +45,7 @@ import org.hibernate.mapping.RootClass;
 import org.hibernate.mapping.SimpleValue;
 import org.hibernate.mapping.Table;
 import org.hibernate.mapping.ToOne;
+import org.hibernate.mapping.TypeDef;
 import org.hibernate.mapping.Value;
 import org.hibernate.type.ForeignKeyDirection;
 import org.hibernate.type.Type;
@@ -778,7 +779,19 @@ public class JDBCBinder {
 	private SimpleValue bindColumnToSimpleValue(Table table, Column column, Mapping mapping, boolean generatedIdentifier) {
 		SimpleValue value = new SimpleValue(this.mappings, table);
 		value.addColumn(column);
-		value.setTypeName(guessAndAlignType(table, column, mapping, generatedIdentifier));
+		String name =guessAndAlignType(table, column, mapping, generatedIdentifier);
+		TypeDef typeDef = mappings.getTypeDef(name);
+		if ( typeDef != null ) {
+			String typeName = typeDef.getTypeClass();
+			// parameters on the property mapping should
+			// override parameters in the typedef
+			Properties allParameters = new Properties();
+			allParameters.putAll( typeDef.getParameters() );
+			if ( !allParameters.isEmpty() ) value.setTypeParameters( allParameters );
+
+			if ( typeName != null ) value.setTypeName( typeName );
+		}else
+			value.setTypeName(guessAndAlignType(table, column, mapping, generatedIdentifier));
 		return value;
 	}
 
