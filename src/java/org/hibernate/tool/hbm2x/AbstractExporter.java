@@ -228,7 +228,9 @@ public abstract class AbstractExporter implements Exporter {
 	
 	public void setProperties(Properties properties) {
 		this.properties = properties;
-		
+		String ejb3=(String)properties.get("ejb3");
+			if(Boolean.parseBoolean(ejb3))
+				this.properties.setProperty("jdk5", ejb3);
 	}
 
 	public void setArtifactCollector(ArtifactCollector collector) {
