@@ -28,6 +28,8 @@ import org.hibernate.tool.hbm2x.Cfg2JavaTool;
 import org.hibernate.tool.hbm2x.MetaAttributeConstants;
 import org.hibernate.tool.hbm2x.MetaAttributeHelper;
 import org.hibernate.tool.hbm2x.visitor.DefaultValueVisitor;
+import org.hibernate.type.CustomType;
+import org.hibernate.type.Type;
 import org.hibernate.util.StringHelper;
 
 /**
@@ -494,6 +496,23 @@ abstract public class BasicPOJOClass implements POJOClass, MetaAttributeConstant
 
 		return properties.iterator();
 	}
+
+    public String generateAnnTypeAnnotation(Property property) {
+        Type type = property.getType();
+        //only works on Hibernate >=3.6
+        if (type instanceof CustomType) {
+        	CustomType custom=(CustomType) type;
+        	String keys[]=custom.getRegistrationKeys();
+        	if(keys.length>0)
+        		return "    @" + importType("org.hibernate.annotations.Type") + "(type=\"" +
+                        keys[0] + "\")";//return first key associated
+        	else
+        		return "    @" + importType("org.hibernate.annotations.Type") + "(type=\"" +
+                    custom.getName() + "\")";
+        } else {
+            return "";
+        }
+    }
 
 	public Iterator getEqualsHashCodePropertiesIterator() {
 		Iterator iter = getAllPropertiesIterator();

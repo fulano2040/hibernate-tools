@@ -18,5 +18,6 @@ ${pojo.generateCollectionAnnotation(property, cfg)}
 <#else>
 ${pojo.generateBasicAnnotation(property)}
 ${pojo.generateAnnColumnAnnotation(property)}
+${pojo.generateAnnTypeAnnotation(property)}
 </#if>
 </#if>

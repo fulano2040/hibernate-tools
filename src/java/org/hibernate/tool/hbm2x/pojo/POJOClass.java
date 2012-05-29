@@ -66,6 +66,7 @@ public interface POJOClass extends ImportContext {
 	public boolean hasIdentifierProperty();
 	
 	public String generateAnnColumnAnnotation(Property property);
+	public String generateAnnTypeAnnotation(Property property);
 	public String generateAnnIdGenerator();
 	public String generateAnnTableUniqueConstraint();
 	public String generateBasicAnnotation(Property property);
