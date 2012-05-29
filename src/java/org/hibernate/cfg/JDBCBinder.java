@@ -47,8 +47,10 @@ import org.hibernate.mapping.Table;
 import org.hibernate.mapping.ToOne;
 import org.hibernate.mapping.TypeDef;
 import org.hibernate.mapping.Value;
+import org.hibernate.type.CustomType;
 import org.hibernate.type.ForeignKeyDirection;
 import org.hibernate.type.Type;
+import org.hibernate.usertype.UserType;
 import org.hibernate.util.JoinedIterator;
 import org.hibernate.util.StringHelper;
 import org.slf4j.Logger;
@@ -780,18 +782,7 @@ public class JDBCBinder {
 		SimpleValue value = new SimpleValue(this.mappings, table);
 		value.addColumn(column);
 		String name =guessAndAlignType(table, column, mapping, generatedIdentifier);
-		TypeDef typeDef = mappings.getTypeDef(name);
-		if ( typeDef != null ) {
-			String typeName = typeDef.getTypeClass();
-			// parameters on the property mapping should
-			// override parameters in the typedef
-			Properties allParameters = new Properties();
-			allParameters.putAll( typeDef.getParameters() );
-			if ( !allParameters.isEmpty() ) value.setTypeParameters( allParameters );
-
-			if ( typeName != null ) value.setTypeName( typeName );
-		}else
-			value.setTypeName(guessAndAlignType(table, column, mapping, generatedIdentifier));
+		value.setTypeName(guessAndAlignType(table, column, mapping, generatedIdentifier));
 		return value;
 	}
 
@@ -853,6 +844,36 @@ public class JDBCBinder {
 			}
 		}
 		else {
+			try{//if we don't have a type for now look for it at the typedef mappings
+				TypeDef typeDef = mappings.getTypeDef(preferredHibernateType);
+				if ( typeDef != null ) {
+					log.debug("typeDef found for " + preferredHibernateType + ". Trying to add it to type registry");
+					String typeName = typeDef.getTypeClass();
+					// parameters on the property mapping should
+					// override parameters in the typedef
+					Properties allParameters = new Properties();
+					allParameters.putAll( typeDef.getParameters() );
+					if ( typeName != null )
+						if ( !allParameters.isEmpty() )  
+							wantedType=mappings.getTypeResolver().heuristicType(typeName,allParameters);
+						else
+							wantedType=mappings.getTypeResolver().heuristicType(typeName);	
+					//if we got a type try to register 
+					if(wantedType!=null)
+						if( CustomType.class.isInstance(wantedType))
+						{
+
+							String keys[]={preferredHibernateType};
+							mappings.getTypeResolver().registerTypeOverride(((CustomType)wantedType).getUserType(), keys);
+						}
+				}
+			}
+			catch(Exception e) {
+				log.debug("Problem registring type "+preferredHibernateType+" "+e.toString());
+				}
+
+
+			
 			log.debug("No Hibernate type found for " + preferredHibernateType + ". Most likely cause is a missing UserType class.");
 		}
 

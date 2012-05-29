@@ -79,7 +79,7 @@ public class JDBCConfigurationTask extends ConfigurationTask {
 		strategy.setSettings(qqsettings);
 		
         jmdc.setReverseEngineeringStrategy(strategy);
-        
+        jmdc.buildMappings();// needed otherwise not all associations are made!
 		jmdc.readFromJDBC(); 
 	}
 

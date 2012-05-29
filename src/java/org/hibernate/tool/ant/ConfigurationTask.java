@@ -53,7 +53,7 @@ public class ConfigurationTask extends Task {
 		if(cfg==null) {
 			cfg = createConfiguration();
 			doConfiguration(cfg);
-			cfg.buildMappings(); // needed otherwise not all assocations are made!
+			cfg.buildMappings(); // needed otherwise not all associations are made!
 		}
 		return cfg;
 	}
